@@ -1,0 +1,26 @@
+{
+    "name": "nodejs-cli",
+    "version": "1.0.0",
+    "description": "Creating CLI App",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "node index",
+      "start:dev": "nodemon index"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/wojciechonoszko/node-hw-CLI.git"
+    },
+    "keywords": [],
+    "author": "Svitlana Burba",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/wojciechonoszko/node-hw-CLI/issues"
+    },
+    "homepage": "https://github.com/wojciechonoszko/node-hw-CLI#readme",
+    "dependencies": {
+      "commander": "^8.1.0",
+      "uuid": "^8.3.2"
+    }
+  }
