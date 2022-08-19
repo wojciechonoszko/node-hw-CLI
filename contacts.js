@@ -1,77 +1,72 @@
 const fs = require('fs').promises;
-const contactsPath = path.join(__dirname, "db/contacts.json");
+const path = require('path');
 
-const listContacts = async () => {
-    try {
-      const data = await fs.readFile(contactsPath);
-      const contacts = JSON.parse(data);
-      return contacts;
-    } catch (error) {
-      throw error;
-    }
-  };
-  
-  const getContactById = async id => {
-    try {
-      const contacts = await listContacts();
-      const contact = contacts.find(contact => contact.id === id);
-      if (!contact){
-        throw new Error(`Contact with id=${id} doesn't exist.`);
-      }
-      return contact;
-    } catch (error) {
-      throw error;
-    }
+const contactsPath = path.join('./db/contacts.json');
+
+async function listContacts(){
+  try {
+    const contacts = await fs.readFile(contactsPath, 'utf-8');
+    return await JSON.parse(contacts);
+  } catch (error) {
+    console.log(error.message);
+    return;
   }
+}
   
-  const removeContact = async id => {
+  async function getContactById(contactId){
     try{
       const contacts = await listContacts();
-      const index = contacts.findIndex(contact => contact.id === id);
-
-      if (index === -1) {
-        throw new Error(`Contact with id=${id} doesn't exist.`);
-      }
-      const newContacts = contacts.filter(contact => contact.id !== id);
-
-      const contactsToString = JSON.stringify(newContacts);
-      await fs.writeFile(contactsPath, contactsToString);
-
-      return contacts[index];
+      const contact = await contacts.find((contact) => {
+        return contact.id === Number(contactId);
+      });
+      return await contact;
     } catch (error) {
-      throw error;
-    }
-  };
-
-  const findMaxId = async () => {
-    try {
-      const contacts = await listContacts();
-      const arrayId = contacts.map(contact => contact.id);
-      const maxId = Math.max(...arrayId);
-      return maxId;
-    } catch (error) {
-      throw error;
+      console.log(error.message);
+      return;
     }
   }
-  
-  const addContact = async () => {
-    const newContact = {...data, id: (await findMaxId()) + 1};
 
+  async function addContact(name, email, phone) {
     try {
       const contacts = await listContacts();
-      const newContacts = JSON.stringify([...contacts, newContact]);
+      const newContacts = JSON.stringify(
+        [...contacts, { id: Date.now(), name: name, email: email, phone: phone}],
+        null,
+        2
+      );
       await fs.writeFile(contactsPath, newContacts);
       return newContacts;
     } catch (error) {
-      throw error;
+      console.log(error.message);
+      return;
     }
-  };
 
-module.exports = contactsPath;
-module.exports = listContacts;
-module.exports = getContactById;
-module.exports = removeContact;
-module.exports = findMaxId;
-module.exports = addContact;
+  }
+
+  async function removeContact(contactId) {
+    try {
+      const contacts = await listContacts();
+      const newContacts = contacts.filter((contact) => {
+        return contact.id !== Number(contactId);
+      });
+      await fs.writeFile(contactsPath, JSON.stringify(newContacts, null, 2));
+      return newContacts;
+    } catch (error) {
+      console.log(error.message);
+      return;
+    }
+  }
+  
+  
+
+  
+
+module.exports = {
+  listContacts,
+  getContactById,
+  removeContact,
+  addContact
+};
+
 
 
