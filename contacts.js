@@ -42,13 +42,36 @@ const listContacts = async () => {
       throw error;
     }
   };
-  
-  function addContact(name, email, phone) {
-    // ...twój kod
+
+  const findMaxId = async () => {
+    try {
+      const contacts = await listContacts();
+      const arrayId = contacts.map(contact => contact.id);
+      const maxId = Math.max(...arrayId);
+      return maxId;
+    } catch (error) {
+      throw error;
+    }
   }
+  
+  const addContact = async () => {
+    const newContact = {...data, id: (await findMaxId()) + 1};
+
+    try {
+      const contacts = await listContacts();
+      const newContacts = JSON.stringify([...contacts, newContact]);
+      await fs.writeFile(contactsPath, newContacts);
+      return newContacts;
+    } catch (error) {
+      throw error;
+    }
+  };
 
 module.exports = contactsPath;
 module.exports = listContacts;
 module.exports = getContactById;
 module.exports = removeContact;
+module.exports = findMaxId;
+module.exports = addContact;
+
 
