@@ -26,15 +26,14 @@ async function listContacts() {
     }
   };
 
+  // find max Id function and add new Id method
   async function findMaxId() {
     try {
       const contacts = await listContacts();
       const arrayId = contacts.map(contact => Number(contact.id));
-      console.log(arrayId);
       const maxId = Math.max(...arrayId) + 1;
-      maxIdStr = maxId.toString();
-      console.log(maxIdStr);
-      return maxIdStr;
+      newId = maxId.toString();
+      return newId;
     } catch (error) {
       console.log(error.message);
       return;
