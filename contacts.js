@@ -26,11 +26,27 @@ async function listContacts() {
     }
   };
 
+  async function findMaxId() {
+    try {
+      const contacts = await listContacts();
+      const arrayId = contacts.map(contact => Number(contact.id));
+      console.log(arrayId);
+      const maxId = Math.max(...arrayId) + 1;
+      maxIdStr = maxId.toString();
+      console.log(maxIdStr);
+      return maxIdStr;
+    } catch (error) {
+      console.log(error.message);
+      return;
+    }
+  }
+  
+
   async function addContact(name, email, phone) {
     try {
       const contacts = await listContacts();
       const newContacts = JSON.stringify(
-        [...contacts, { id: Date.now(), name: name, email: email, phone: phone}],
+        [...contacts, { id: await findMaxId(), name: name, email: email, phone: phone}],
         null,
         2
       );
@@ -62,7 +78,8 @@ module.exports = {
   listContacts,
   getContactById,
   removeContact,
-  addContact
+  addContact,
+  findMaxId
 };
 
 
