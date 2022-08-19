@@ -1,8 +1,8 @@
 const contacts = require('./contacts')
 
-//contacts.contactsPath;
+
 // contacts.listContacts();
-// contacts.getContactById(22);
+//contacts.getContactById(5);
 // contacts.removeContact();
 // contacts.addContact();
 
