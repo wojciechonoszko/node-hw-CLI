@@ -1,12 +1,6 @@
 const contacts = require('./contacts')
 
 
-// contacts.listContacts();
-//contacts.getContactById(5);
-// contacts.removeContact();
-// contacts.addContact();
-//contacts.findMaxId();
-
 const { Command } = require('commander');
 const program = new Command();
 program
